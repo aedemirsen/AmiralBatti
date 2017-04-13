@@ -14,6 +14,8 @@ public class AnaSayfa extends javax.swing.JFrame {
     /**
      * Creates new form JAmiralBatti
      */
+    int control = 0;
+    
     public AnaSayfa() {
         initComponents();
         jLayeredPane2.setVisible(false);
@@ -65,7 +67,19 @@ public class AnaSayfa extends javax.swing.JFrame {
 
         jLabel4.setText("Server Adı:");
 
+        jTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField2KeyTyped(evt);
+            }
+        });
+
         jLabel5.setText("Kullanıcı Adı:");
+
+        jTextField3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTextField3KeyTyped(evt);
+            }
+        });
 
         jLayeredPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -245,6 +259,26 @@ public class AnaSayfa extends javax.swing.JFrame {
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTextField2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField2KeyTyped
+        // TODO add your handling code here:
+        if (!jTextField2.getText().equals("") && !jTextField3.getText().equals("")) {
+            jButton2.setEnabled(true);
+        }
+        else{
+            jButton2.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTextField2KeyTyped
+
+    private void jTextField3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField3KeyTyped
+        // TODO add your handling code here:
+        if (!jTextField2.getText().equals("") && !jTextField3.getText().equals("")) {
+            jButton2.setEnabled(true);
+        }
+        else{
+            jButton2.setEnabled(false);
+        }
+    }//GEN-LAST:event_jTextField3KeyTyped
 
     /**
      * @param args the command line arguments
