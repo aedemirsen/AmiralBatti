@@ -13,11 +13,16 @@ public class Kullanici {
     
     private String kullaniciAdi;
     private int portNumber;
+    private Gemi gemiler[];
     
     public Kullanici(String s){
         this.kullaniciAdi = s;
         this.portNumber = Kod.encode(s);
-    }
+        Gemi gemi[] = new Gemi[3];
+        gemiler[0] = new UcakGemisi();
+        gemiler[1] = new DenizAlti();
+        gemiler[2] = new Fırkateyn();
+    }    
     
     public void setKullaniciAdi(String s){
         this.kullaniciAdi = s;
@@ -26,6 +31,10 @@ public class Kullanici {
     
     public String getKullaniciAdi(){
         return kullaniciAdi;
+    }
+    
+    public void secim(){
+        
     }
     
     

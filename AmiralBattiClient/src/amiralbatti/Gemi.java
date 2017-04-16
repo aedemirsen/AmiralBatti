@@ -11,12 +11,16 @@ package amiralbatti;
  */
 public class Gemi {
     
-    private final int boyut;
+    private int boyut;
     private int hasar;
     
     public Gemi(int boyut){
         this.boyut = boyut;
         this.hasar = 0;
+    }
+    
+    public Gemi(){
+        
     }
     
     boolean batıkMı(){
@@ -35,4 +39,25 @@ public class Gemi {
         return boyut;
     }
     
+}
+
+class UcakGemisi extends Gemi{
+    
+    public UcakGemisi() {
+        super(3);
+    }    
+}
+
+class DenizAlti extends Gemi{
+    
+    public DenizAlti() {
+        super(2);
+    }    
+}
+
+class Fırkateyn extends Gemi{
+    
+    public Fırkateyn() {
+        super(1);
+    }    
 }
