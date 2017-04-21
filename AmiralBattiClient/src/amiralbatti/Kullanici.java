@@ -18,10 +18,10 @@ public class Kullanici {
     public Kullanici(String s){
         this.kullaniciAdi = s;
         this.portNumber = Kod.encode(s);
-        Gemi gemi[] = new Gemi[3];
+        gemiler = new Gemi[3];
         gemiler[0] = new UcakGemisi();
-        gemiler[1] = new DenizAlti();
-        gemiler[2] = new Fırkateyn();
+        gemiler[1] = new Denizalti();
+        gemiler[2] = new Firkateyn();
     }    
     
     public void setKullaniciAdi(String s){

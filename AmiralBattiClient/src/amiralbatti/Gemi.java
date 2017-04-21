@@ -5,59 +5,98 @@
  */
 package amiralbatti;
 
+import static amiralbatti.UcakGemisi.boyut;
+
 /**
  *
  * @author aedemirsen
  */
-public class Gemi {
+public interface Gemi {
     
-    private int boyut;
+    boolean batıkMı();
+    
+    void hasar();
+    
+    public int getHasar();    
+    
+}
+
+class UcakGemisi implements Gemi{
+    
+    static String isim = "UcakGemisi";   
+    static int boyut = 3;
+    private int hasar;
+
+    public UcakGemisi(){
+        hasar = 0;
+    }
+    
+    @Override
+    public boolean batıkMı() {
+        return this.hasar == boyut;
+    }
+
+    @Override
+    public void hasar() {
+       hasar++;
+    }
+
+    @Override
+    public int getHasar() {
+        return this.hasar;
+    }
+}
+
+class Denizalti implements Gemi{
+    
+    static String isim = "Denizalti";   
+    static int boyut = 2;
     private int hasar;
     
-    public Gemi(int boyut){
-        this.boyut = boyut;
-        this.hasar = 0;
+    public Denizalti(){
+        hasar = 0;
     }
-    
-    public Gemi(){
-        
+
+    @Override
+    public boolean batıkMı() {
+        return this.hasar == boyut;
     }
-    
-    boolean batıkMı(){
-        return this.hasar == this.boyut;
+
+    @Override
+    public void hasar() {
+        hasar++;
     }
-    
-    void vuruldu(){
-        hasar++;                
-    }
-    
-    public int getHasar(){
-        return hasar;
-    }
-    
-    public int getBoyut(){
-        return boyut;
-    }
+
+    @Override
+    public int getHasar() {
+        return this.hasar;
+    }   
     
 }
 
-class UcakGemisi extends Gemi{
-    
-    public UcakGemisi() {
-        super(3);
-    }    
-}
+class Firkateyn implements Gemi{
 
-class DenizAlti extends Gemi{
+    static String isim = "Firkateyn";   
+    static int boyut = 1;
+    private int hasar;
     
-    public DenizAlti() {
-        super(2);
-    }    
-}
+    public Firkateyn(){
+        hasar = 0;
+    }
 
-class Fırkateyn extends Gemi{
-    
-    public Fırkateyn() {
-        super(1);
-    }    
+    @Override
+    public boolean batıkMı() {
+        return this.hasar == boyut;
+    }
+
+    @Override
+    public void hasar() {
+        hasar++;
+    }
+
+    @Override
+    public int getHasar() {
+        return this.hasar;
+    }   
+      
 }

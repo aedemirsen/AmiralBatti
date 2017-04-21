@@ -8,6 +8,7 @@ package amiralbatti;
 import java.awt.Color;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,10 +22,23 @@ public class AnaSayfa extends javax.swing.JFrame {
      */
     int control = 0;
     private boolean basladiMi = false;
+    JButton butonlar[][];
+    private int x,y;
+    int gemiBirimi = 3+2+1;
+    int koordinat[];
+    SavasAlani s;
 
     public AnaSayfa() {
         initComponents();
         initIcons();
+        koordinat = new int[2];
+        
+        x = 4;
+        y = 8;
+        
+        butonlar = new JButton [x][y];
+        
+        initButtons();
 
         oyunSayfasi.setVisible(false);
 
@@ -325,6 +339,198 @@ public class AnaSayfa extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton17.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton20.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton24.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton26.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton27.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton28.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton29.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton30.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton31.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
+        jButton32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                birim(evt);
+            }
+        });
+
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("Uçak Gemisi");
 
@@ -346,7 +552,7 @@ public class AnaSayfa extends javax.swing.JFrame {
         jTextField3.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         jTextField4.setEditable(false);
-        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jTextField4.setFont(new java.awt.Font("Tahoma", 1, 10)); // NOI18N
         jTextField4.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
         oyunSayfasi.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -571,20 +777,18 @@ public class AnaSayfa extends javax.swing.JFrame {
                                 .addComponent(jLabel5))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, oyunSayfasiLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
-                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(oyunSayfasiLayout.createSequentialGroup()
                         .addGroup(oyunSayfasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(oyunSayfasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(oyunSayfasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel6)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton45, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
@@ -653,6 +857,7 @@ public class AnaSayfa extends javax.swing.JFrame {
         //Server kurulacak
         
         
+        s = new SavasAlani(x, y);
         
         altPanel2.setVisible(false);
         anaSayfa.setVisible(false);
@@ -673,6 +878,41 @@ public class AnaSayfa extends javax.swing.JFrame {
         basladiMi = true;
     }//GEN-LAST:event_jButton45ActionPerformed
 
+    private void birim(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birim
+        // TODO add your handling code here:
+        
+        JButton b = (JButton)evt.getSource();
+        
+        for (int i = 0; i < butonlar.length; i++) {
+            for (int j = 0; j < butonlar[i].length; j++) {
+                if (butonlar[i][j].equals(b)) {
+                    koordinat[0] = i;
+                    koordinat[1] = j;
+                    break;
+                }
+            }
+        }
+        
+        if (gemiBirimi > 3) { //1.gemi seçiliyor
+            s.birimDoldur(b, "UcakGemisi",koordinat);
+            if (gemiBirimi == 4) 
+                jLabel16.setIcon(new ImageIcon("icons/9.jpg"));            
+        }
+        else if (gemiBirimi > 1) { //2.gemi seçiliyor            
+            s.birimDoldur(b, "Denizalti",koordinat);
+            if (gemiBirimi == 2) 
+                jLabel17.setIcon(new ImageIcon("icons/9.jpg"));
+        }
+        else if(gemiBirimi == 1){  //3.gemi seçiliyor
+            s.birimDoldur(b, "Firkateyn",koordinat);
+            if (gemiBirimi == 1) 
+                jLabel18.setIcon(new ImageIcon("icons/9.jpg"));       
+        }
+        
+        gemiBirimi--;
+        
+    }//GEN-LAST:event_birim
+
     
     
     private void initIcons(){
@@ -683,6 +923,44 @@ public class AnaSayfa extends javax.swing.JFrame {
         jButton44.setIcon(new ImageIcon("icons/5.png"));
         jButton47.setIcon(new ImageIcon("icons/5.png"));
         jLabel13.setIcon(new ImageIcon("icons/8.png"));
+    }
+    
+    private void initButtons(){
+        butonlar[0][0] = jButton1;
+        butonlar[0][1] = jButton2;
+        butonlar[0][2] = jButton3;
+        butonlar[0][3] = jButton4;
+        butonlar[0][4] = jButton5;
+        butonlar[0][5] = jButton6;
+        butonlar[0][6] = jButton7;
+        butonlar[0][7] = jButton8;
+        
+        butonlar[1][0] = jButton9;
+        butonlar[1][1] = jButton10;
+        butonlar[1][2] = jButton11;
+        butonlar[1][3] = jButton12;
+        butonlar[1][4] = jButton13;
+        butonlar[1][5] = jButton14;
+        butonlar[1][6] = jButton15;
+        butonlar[1][7] = jButton16;
+        
+        butonlar[2][0] = jButton17;
+        butonlar[2][1] = jButton18;
+        butonlar[2][2] = jButton19;
+        butonlar[2][3] = jButton20;
+        butonlar[2][4] = jButton21;
+        butonlar[2][5] = jButton22;
+        butonlar[2][6] = jButton23;
+        butonlar[2][7] = jButton24;
+        
+        butonlar[3][0] = jButton25;
+        butonlar[3][1] = jButton26;
+        butonlar[3][2] = jButton27;
+        butonlar[3][3] = jButton28;
+        butonlar[3][4] = jButton29;
+        butonlar[3][5] = jButton30;
+        butonlar[3][6] = jButton31;
+        butonlar[3][7] = jButton32;        
     }
     /**
      * @param args the command line arguments
