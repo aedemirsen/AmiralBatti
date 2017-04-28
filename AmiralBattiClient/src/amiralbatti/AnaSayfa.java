@@ -27,6 +27,7 @@ public class AnaSayfa extends javax.swing.JFrame {
     int gemiBirimi = 3+2+1;
     int koordinat[];
     SavasAlani s;
+    Kullanici k;
 
     public AnaSayfa() {
         initComponents();
@@ -235,6 +236,11 @@ public class AnaSayfa extends javax.swing.JFrame {
         jLabel11.setText("jLabel10");
 
         jButton46.setText("Oyuna Katıl");
+        jButton46.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton46ActionPerformed(evt);
+            }
+        });
 
         jButton47.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -693,12 +699,12 @@ public class AnaSayfa extends javax.swing.JFrame {
                                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addContainerGap(42, Short.MAX_VALUE))
                     .addGroup(oyunSayfasiLayout.createSequentialGroup()
-                        .addGroup(oyunSayfasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(oyunSayfasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(oyunSayfasiLayout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(46, 46, 46)
                         .addGroup(oyunSayfasiLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -825,11 +831,10 @@ public class AnaSayfa extends javax.swing.JFrame {
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
         // TODO add your handling code here:
         if (!jTextField1.getText().equals("")) {
-            Kullanici k = new Kullanici(jTextField1.getText());
+            k = new Kullanici(jTextField1.getText());
             jLabel10.setText(k.getKullaniciAdi());
             jLabel11.setText(k.getKullaniciAdi());
             jTextField3.setText(k.getKullaniciAdi());
-            jTextField4.setText("Rakip Bekleniyor...");
             altPanel1.setVisible(false);
             altPanel2.setVisible(true);
         }
@@ -854,15 +859,11 @@ public class AnaSayfa extends javax.swing.JFrame {
     private void jButton42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton42ActionPerformed
         // TODO add your handling code here:
         
-        //Server kurulacak
-        
-        
         s = new SavasAlani(x, y);
-        
         altPanel2.setVisible(false);
         anaSayfa.setVisible(false);
         oyunSayfasi.setVisible(true);
-        JOptionPane.showMessageDialog(this, "Oyun Kuruldu. Gemilerinizi sırası "
+        JOptionPane.showMessageDialog(this, "Gemilerinizi sırası "
                 + "ile alana yerleştirin, başla butonuna basın ve rakibinizi bekleyin...");
         
     }//GEN-LAST:event_jButton42ActionPerformed
@@ -875,13 +876,22 @@ public class AnaSayfa extends javax.swing.JFrame {
 
     private void jButton45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton45ActionPerformed
         // TODO add your handling code here:
-        basladiMi = true;
+        basladiMi = true;        
+        Server server = new Server(k);
+        Thread t = new Thread(server);
+        t.start();
+        JOptionPane.showMessageDialog(this, "Oyun kuruldu, rakip bekleniyor...");
+        jTextField4.setText("Rakip Bekleniyor...");
+        
     }//GEN-LAST:event_jButton45ActionPerformed
 
     private void birim(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birim
         // TODO add your handling code here:
         
         JButton b = (JButton)evt.getSource();
+        
+//        bSetEnabled(false);
+//        b.setEnabled(true);
         
         for (int i = 0; i < butonlar.length; i++) {
             for (int j = 0; j < butonlar[i].length; j++) {
@@ -894,6 +904,7 @@ public class AnaSayfa extends javax.swing.JFrame {
         }
         
         if (gemiBirimi > 3) { //1.gemi seçiliyor
+          //  secilebilirButonlar(b, 3);
             s.birimDoldur(b, "UcakGemisi",koordinat);
             if (gemiBirimi == 4) 
                 jLabel16.setIcon(new ImageIcon("icons/9.jpg"));            
@@ -906,15 +917,49 @@ public class AnaSayfa extends javax.swing.JFrame {
         else if(gemiBirimi == 1){  //3.gemi seçiliyor
             s.birimDoldur(b, "Firkateyn",koordinat);
             if (gemiBirimi == 1) 
-                jLabel18.setIcon(new ImageIcon("icons/9.jpg"));       
-        }
-        
+                jLabel18.setIcon(new ImageIcon("icons/9.jpg"));    
+            JOptionPane.showMessageDialog(this, "Gemiler başarı ile yerleştirildi.");
+            jButton45.setEnabled(true);
+        }        
         gemiBirimi--;
         
     }//GEN-LAST:event_birim
 
+    private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        
+    }//GEN-LAST:event_jButton46ActionPerformed
+/*
+    private void secilebilirButonlar(JButton b,int birimSayisi){ 
+        int k = 0,l = 0;
+        for (int i = 0; i < butonlar.length; i++) {
+            for (int j = 0; j < butonlar[i].length; j++) {
+                if (b.equals(butonlar[i][j])) {
+                    k = i;
+                    l = j;
+                    break;
+                }
+            }
+        }
+        for (int i = 1; i <= birimSayisi; i++) {
+            butonlar[k+i][l].setEnabled(true);
+            butonlar[k-i][l].setEnabled(true);
+            butonlar[k][l+i].setEnabled(true);
+            butonlar[k][l-i].setEnabled(true);
+        }
+        
+    }
     
-    
+    private void bSetEnabled(boolean b){
+        for (int i = 0; i < butonlar.length; i++) {
+            for (int j = 0; j < butonlar[i].length; j++) {
+                butonlar[i][j].setEnabled(b);
+            }
+        }
+    }
+    */
     private void initIcons(){
         jLabel1.setIcon(new ImageIcon("icons/1.png"));
         jLabel2.setIcon(new ImageIcon("icons/2.png"));

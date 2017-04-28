@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -36,7 +37,8 @@ public class SavasAlani {
     public void birimDoldur(JButton b, String gemiTuru,int [] koordinat){
         birimler[koordinat[0]][koordinat[1]].setB(b);
         birimler[koordinat[0]][koordinat[1]].setGemiTuru(gemiTuru);  
-        b.setBackground(Color.black);
+        b.setEnabled(false);
+        b.setIcon(new ImageIcon("icons/10.png"));
     }
 
     public boolean birimVur(Birim b) {
