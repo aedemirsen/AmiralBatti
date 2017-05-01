@@ -12,12 +12,10 @@ package amiralbatti;
 public class Kullanici {
     
     private String kullaniciAdi;
-    private int portNumber;
     private Gemi gemiler[];
     
     public Kullanici(String s){
         this.kullaniciAdi = s;
-        this.portNumber = Kod.encode(s);
         gemiler = new Gemi[3];
         gemiler[0] = new UcakGemisi();
         gemiler[1] = new Denizalti();
@@ -26,7 +24,6 @@ public class Kullanici {
     
     public void setKullaniciAdi(String s){
         this.kullaniciAdi = s;
-        this.portNumber = Kod.encode(s);
     }
     
     public String getKullaniciAdi(){
@@ -42,14 +39,3 @@ public class Kullanici {
     
 }
 
-class Kod{
-    
-    static public int encode(String s){
-        int a = 0;
-        for (int i = 0; i < s.length(); i++) {
-            a += s.charAt(i);
-        }
-        return a;
-    }
-        
-}

@@ -18,6 +18,13 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+
+/**
+ *
+ * @author aedemirsen
+ */
+
 
 public class Server implements Runnable {
 
@@ -25,10 +32,10 @@ public class Server implements Runnable {
     private String ip;
     private boolean aktif;
     private String gelenMesaj;
+    private String rakipAdi;
 
     private Kullanici k;
 
-    // static Server s = new Server();    
     DatagramSocket serverSocket;
 
     public Server(Kullanici k) {
@@ -58,19 +65,25 @@ public class Server implements Runnable {
         try {
             serverSocket = new DatagramSocket(port);
             while (aktif) {
-                byte[] receiveData = new byte[8];
+                byte[] receiveData = new byte[20];
                 byte[] sendData;
                 DatagramPacket receivePacket;
                 receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
                 gelenMesaj = new String(receivePacket.getData());
-                InetAddress IPAddress = receivePacket.getAddress();
-                sendData = gelenMesaj.getBytes();
                 gelenMesajiYazdir();
-                if (gelenMesaj.equals("BAGLANDI")) {
+                if (gelenMesaj.trim().startsWith("BAGLANDI")) {                   
+                    this.rakipAdi = gelenMesaj.substring(gelenMesaj.indexOf("#")+1).trim();
+                    AnaSayfa.jTextField4.setText(this.rakipAdi);
+                    AnaSayfa.jButton45.setText("OYUN BAŞLADI!");
+                    InetAddress IPAddress = receivePacket.getAddress();
+                    sendData = this.getKullanici().getKullaniciAdi().getBytes();
                     DatagramPacket sendPacket
-                            = new DatagramPacket(sendData, sendData.length, IPAddress, getPort());
+                            = new DatagramPacket(sendData, sendData.length, IPAddress, 1299);
                     serverSocket.send(sendPacket);
+                }
+                else if (gelenMesaj.trim().equals("BASLADI")) {
+                    AnaSayfa.jLabel15.setIcon(new ImageIcon("icons/6.png"));
                 }
 
             }
@@ -85,11 +98,15 @@ public class Server implements Runnable {
         aktif = false;
     }
 
-    void gelenMesajiYazdir() {
-        System.out.println(gelenMesaj);
+    public String getRakipAdi() {
+        return this.rakipAdi;
     }
 
-    public static void main(String args[]) throws UnknownHostException {
+    void gelenMesajiYazdir() {
+        System.out.println(gelenMesaj.trim());
+    }
+
+    public static void main(String args[]) {
 
     }
 }

@@ -12,7 +12,6 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,48 +20,47 @@ import java.util.logging.Logger;
  * @author aedemirsen
  */
 public class Client {
-    
+
     final private String baglandiBilgisi = "BAGLANDI";
     private Kullanici k;
     private String rakipAdi;
-    private byte[] baglandi;
-    private byte[] kullanici;
+    private byte[] mesaj;
     String ip;
     DatagramSocket clientSocket;
     InetAddress IPAddress;
-    
-    public Client(Kullanici k){
+
+    public Client(Kullanici k) {
         this.k = k;
         try {
             ip = Inet4Address.getLocalHost().getHostAddress();
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }    
-    
+    }
+
     public Kullanici getKullanici() {
         return this.k;
     }
-    
-    void baglan(String serverIP,int serverPort){
+
+    public void baglan(String serverIP, int serverPort) {
         try {
-            clientSocket = new DatagramSocket();
+            clientSocket = new DatagramSocket(1299);
             IPAddress = InetAddress.getByName(serverIP);
-            baglandi = baglandiBilgisi.getBytes();
-            System.out.println(baglandi.length);
-            kullanici = this.getKullanici().getKullaniciAdi().getBytes();
-            byte[] receiveData = new byte[8];
-            DatagramPacket sendPacket = 
-                    new DatagramPacket(baglandi, baglandi.length, IPAddress, serverPort);
-            clientSocket.send(sendPacket);
-            DatagramPacket sendPacket2 = 
-                    new DatagramPacket(kullanici, kullanici.length, IPAddress, serverPort);
-            clientSocket.send(sendPacket2);
-//            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-//            clientSocket.receive(receivePacket);
-//            rakipAdi = Arrays.toString(receiveData);
-//            System.out.println(rakipAdi);
-            clientSocket.close();
+            String ilkMesaj = baglandiBilgisi.concat("#").
+                    concat(this.getKullanici().getKullaniciAdi());
+            mesaj = ilkMesaj.getBytes();
+            byte[] receiveData = new byte[20];
+            DatagramPacket sendPacket
+                    = new DatagramPacket(mesaj, mesaj.length, IPAddress, serverPort);
+            clientSocket.send(sendPacket);     
+//            if (!clientSocket.isConnected()) 
+//                return false;            
+            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            clientSocket.receive(receivePacket);            
+            rakipAdi = new String(receivePacket.getData());
+            AnaSayfa.jTextField4.setText(rakipAdi.trim());
+           // System.out.println(rakipAdi.trim());
+            //clientSocket.close();
         } catch (SocketException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (UnknownHostException ex) {
@@ -70,13 +68,20 @@ public class Client {
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
+//        return true;
     }
-       
     
+    public void mesajGonder(String s,int serverPort) throws IOException{
+        mesaj = s.getBytes();
+        DatagramPacket sendPacket
+                    = new DatagramPacket(mesaj, mesaj.length, IPAddress, serverPort);
+        clientSocket.send(sendPacket);    
+    }
+
     public static void main(String args[]) {
-        
+
         Client c = new Client(new Kullanici("aed"));
-        c.baglan("localhost",1453);
+        c.baglan("localhost", 1453);
 //        
 
         /*Scanner sc = new Scanner(System.in);
@@ -110,5 +115,5 @@ public class Client {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }*/
     }
-    
+
 }

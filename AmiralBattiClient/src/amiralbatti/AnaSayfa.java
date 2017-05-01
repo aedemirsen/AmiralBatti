@@ -6,6 +6,9 @@
 package amiralbatti;
 
 import java.awt.Color;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,36 +23,44 @@ public class AnaSayfa extends javax.swing.JFrame {
     /**
      * Creates new form JAmiralBatti
      */
+    private int serverPort;
+    private String IP;
     int control = 0;
     private boolean basladiMi = false;
     JButton butonlar[][];
-    private int x,y;
-    int gemiBirimi = 3+2+1;
+    private int x, y;
+    int gemiBirimi = 3 + 2 + 1;
     int koordinat[];
     SavasAlani s;
     Kullanici k;
+    Client c;
+
+    boolean kurucuMu;
 
     public AnaSayfa() {
         initComponents();
         initIcons();
         koordinat = new int[2];
-        
+
         x = 4;
         y = 8;
-        
-        butonlar = new JButton [x][y];
-        
+
+        butonlar = new JButton[x][y];
+
         initButtons();
 
         oyunSayfasi.setVisible(false);
 
         altPanel2.setVisible(false);
         altPanel3.setVisible(false);
-        
+
         jButton45.setEnabled(false);
         
-       // jLabel17.setIcon(new ImageIcon("icons/9.jpg"));
+        jTextField2.setText("1453");
+        jTextField5.setText("localhost");
         
+
+        // jLabel17.setIcon(new ImageIcon("icons/9.jpg"));
     }
 
     /**
@@ -76,10 +87,13 @@ public class AnaSayfa extends javax.swing.JFrame {
         jButton44 = new javax.swing.JButton();
         altPanel3 = new javax.swing.JLayeredPane();
         jLabel11 = new javax.swing.JLabel();
-        jButton46 = new javax.swing.JButton();
         jButton47 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        jButton48 = new javax.swing.JButton();
+        jLabel20 = new javax.swing.JLabel();
+        jTextField5 = new javax.swing.JTextField();
         oyunSayfasi = new javax.swing.JLayeredPane();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -235,59 +249,77 @@ public class AnaSayfa extends javax.swing.JFrame {
         jLabel11.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel11.setText("jLabel10");
 
-        jButton46.setText("Oyuna Katıl");
-        jButton46.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton46ActionPerformed(evt);
-            }
-        });
-
         jButton47.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton47ActionPerformed(evt);
             }
         });
 
-        jLabel12.setText("Oyun Adı:");
+        jLabel12.setText("Port :");
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
+        jLabel19.setText("Kullanıcı Adı:");
+
+        jButton48.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton48ActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setText("IP:");
+
+        jTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
         altPanel3.setLayer(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        altPanel3.setLayer(jButton46, javax.swing.JLayeredPane.DEFAULT_LAYER);
         altPanel3.setLayer(jButton47, javax.swing.JLayeredPane.DEFAULT_LAYER);
         altPanel3.setLayer(jLabel12, javax.swing.JLayeredPane.DEFAULT_LAYER);
         altPanel3.setLayer(jTextField2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        altPanel3.setLayer(jLabel19, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        altPanel3.setLayer(jButton48, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        altPanel3.setLayer(jLabel20, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        altPanel3.setLayer(jTextField5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout altPanel3Layout = new javax.swing.GroupLayout(altPanel3);
         altPanel3.setLayout(altPanel3Layout);
         altPanel3Layout.setHorizontalGroup(
             altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(altPanel3Layout.createSequentialGroup()
-                .addGap(1, 1, 1)
+                .addContainerGap()
                 .addComponent(jButton47, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(91, 91, 91)
+                .addGap(82, 82, 82)
                 .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(altPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jButton46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(121, Short.MAX_VALUE))
+                    .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel20, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField5)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addComponent(jButton48, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         altPanel3Layout.setVerticalGroup(
             altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(altPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel19))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                 .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton46, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton47, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                        .addComponent(jButton48, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
+                    .addGroup(altPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -837,8 +869,7 @@ public class AnaSayfa extends javax.swing.JFrame {
             jTextField3.setText(k.getKullaniciAdi());
             altPanel1.setVisible(false);
             altPanel2.setVisible(true);
-        }
-        else{
+        } else {
             jTextField1.setBorder(BorderFactory.createLineBorder(Color.RED));
         }
 
@@ -858,41 +889,55 @@ public class AnaSayfa extends javax.swing.JFrame {
 
     private void jButton42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton42ActionPerformed
         // TODO add your handling code here:
-        
+        kurucuMu = true;
         s = new SavasAlani(x, y);
         altPanel2.setVisible(false);
         anaSayfa.setVisible(false);
         oyunSayfasi.setVisible(true);
         JOptionPane.showMessageDialog(this, "Gemilerinizi sırası "
                 + "ile alana yerleştirin, başla butonuna basın ve rakibinizi bekleyin...");
-        
+
     }//GEN-LAST:event_jButton42ActionPerformed
 
     private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
         // TODO add your handling code here:
+        kurucuMu = false;
         altPanel2.setVisible(false);
         altPanel3.setVisible(true);
+
+
     }//GEN-LAST:event_jButton43ActionPerformed
 
     private void jButton45ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton45ActionPerformed
         // TODO add your handling code here:
-        basladiMi = true;        
-        Server server = new Server(k);
-        Thread t = new Thread(server);
-        t.start();
-        JOptionPane.showMessageDialog(this, "Oyun kuruldu, rakip bekleniyor...");
-        jTextField4.setText("Rakip Bekleniyor...");
-        
+        if (kurucuMu) {
+            JOptionPane.showMessageDialog(this, "Oyun kuruldu, rakip bekleniyor...");
+            jTextField4.setText("Rakip Bekleniyor...");
+            Server server = new Server(k);
+            Thread t = new Thread(server);
+            t.start();
+            jButton45.setText("");
+            jButton45.setEnabled(false);
+        } else {
+            try {
+                c.mesajGonder("BASLADI",serverPort);
+                JOptionPane.showMessageDialog(this, "Oyun başladı!");
+                basladiMi = true;
+                jLabel14.setIcon(new ImageIcon("icons/7.png"));
+                jButton45.setEnabled(false);
+            } catch (IOException ex) {
+                Logger.getLogger(AnaSayfa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+
     }//GEN-LAST:event_jButton45ActionPerformed
 
     private void birim(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_birim
         // TODO add your handling code here:
-        
-        JButton b = (JButton)evt.getSource();
-        
-//        bSetEnabled(false);
-//        b.setEnabled(true);
-        
+
+        JButton b = (JButton) evt.getSource();
+
         for (int i = 0; i < butonlar.length; i++) {
             for (int j = 0; j < butonlar[i].length; j++) {
                 if (butonlar[i][j].equals(b)) {
@@ -902,36 +947,58 @@ public class AnaSayfa extends javax.swing.JFrame {
                 }
             }
         }
-        
+
         if (gemiBirimi > 3) { //1.gemi seçiliyor
-          //  secilebilirButonlar(b, 3);
-            s.birimDoldur(b, "UcakGemisi",koordinat);
-            if (gemiBirimi == 4) 
-                jLabel16.setIcon(new ImageIcon("icons/9.jpg"));            
-        }
-        else if (gemiBirimi > 1) { //2.gemi seçiliyor            
-            s.birimDoldur(b, "Denizalti",koordinat);
-            if (gemiBirimi == 2) 
+            //  secilebilirButonlar(b, 3);
+            s.birimDoldur(b, "UcakGemisi", koordinat);
+            b.setIcon(new ImageIcon("icons/10.png"));
+            if (gemiBirimi == 4) {
+                jLabel16.setIcon(new ImageIcon("icons/9.jpg"));
+            }
+        } else if (gemiBirimi > 1) { //2.gemi seçiliyor            
+            s.birimDoldur(b, "Denizalti", koordinat);
+            b.setIcon(new ImageIcon("icons/11.png"));
+            if (gemiBirimi == 2) {
                 jLabel17.setIcon(new ImageIcon("icons/9.jpg"));
-        }
-        else if(gemiBirimi == 1){  //3.gemi seçiliyor
-            s.birimDoldur(b, "Firkateyn",koordinat);
-            if (gemiBirimi == 1) 
-                jLabel18.setIcon(new ImageIcon("icons/9.jpg"));    
+            }
+        } else if (gemiBirimi == 1) {  //3.gemi seçiliyor
+            s.birimDoldur(b, "Firkateyn", koordinat);
+            b.setIcon(new ImageIcon("icons/12.png"));
+            if (gemiBirimi == 1) {
+                jLabel18.setIcon(new ImageIcon("icons/9.jpg"));
+            }
             JOptionPane.showMessageDialog(this, "Gemiler başarı ile yerleştirildi.");
             jButton45.setEnabled(true);
-        }        
+        }
         gemiBirimi--;
-        
+
     }//GEN-LAST:event_birim
 
-    private void jButton46ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton46ActionPerformed
+    private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
         // TODO add your handling code here:
-        
-        
-        
-    }//GEN-LAST:event_jButton46ActionPerformed
-/*
+        if (!(jTextField2.getText().equals("") || jTextField3.getText().equals(""))) {
+            serverPort = Integer.parseInt(jTextField2.getText());
+            IP = jTextField5.getText();
+            c = new Client(k);
+            c.baglan(IP, serverPort);
+//            if (c.baglan(IP, port)) {
+                System.out.println("BAGLANDI");
+                s = new SavasAlani(x, y);
+                altPanel3.setVisible(false);
+                anaSayfa.setVisible(false);
+                oyunSayfasi.setVisible(true);
+                JOptionPane.showMessageDialog(this, "Oyuna girildi. Gemilerinizi sırası "
+                        + "ile alana yerleştirin ve başla butonuna basın");
+//            } else {
+               // System.out.println("baglanmadı");
+//            }
+
+        } else {
+            JOptionPane.showMessageDialog(this, "Alanları doldurunuz.");
+        }
+
+    }//GEN-LAST:event_jButton48ActionPerformed
+    /*
     private void secilebilirButonlar(JButton b,int birimSayisi){ 
         int k = 0,l = 0;
         for (int i = 0; i < butonlar.length; i++) {
@@ -959,18 +1026,19 @@ public class AnaSayfa extends javax.swing.JFrame {
             }
         }
     }
-    */
-    private void initIcons(){
+     */
+    private void initIcons() {
         jLabel1.setIcon(new ImageIcon("icons/1.png"));
         jLabel2.setIcon(new ImageIcon("icons/2.png"));
         jLabel3.setIcon(new ImageIcon("icons/3.png"));
         jLabel8.setIcon(new ImageIcon("icons/4.jpg"));
         jButton44.setIcon(new ImageIcon("icons/5.png"));
         jButton47.setIcon(new ImageIcon("icons/5.png"));
+        jButton48.setIcon(new ImageIcon("icons/9.jpg"));
         jLabel13.setIcon(new ImageIcon("icons/8.png"));
     }
-    
-    private void initButtons(){
+
+    private void initButtons() {
         butonlar[0][0] = jButton1;
         butonlar[0][1] = jButton2;
         butonlar[0][2] = jButton3;
@@ -979,7 +1047,7 @@ public class AnaSayfa extends javax.swing.JFrame {
         butonlar[0][5] = jButton6;
         butonlar[0][6] = jButton7;
         butonlar[0][7] = jButton8;
-        
+
         butonlar[1][0] = jButton9;
         butonlar[1][1] = jButton10;
         butonlar[1][2] = jButton11;
@@ -988,7 +1056,7 @@ public class AnaSayfa extends javax.swing.JFrame {
         butonlar[1][5] = jButton14;
         butonlar[1][6] = jButton15;
         butonlar[1][7] = jButton16;
-        
+
         butonlar[2][0] = jButton17;
         butonlar[2][1] = jButton18;
         butonlar[2][2] = jButton19;
@@ -997,7 +1065,7 @@ public class AnaSayfa extends javax.swing.JFrame {
         butonlar[2][5] = jButton22;
         butonlar[2][6] = jButton23;
         butonlar[2][7] = jButton24;
-        
+
         butonlar[3][0] = jButton25;
         butonlar[3][1] = jButton26;
         butonlar[3][2] = jButton27;
@@ -1005,8 +1073,9 @@ public class AnaSayfa extends javax.swing.JFrame {
         butonlar[3][4] = jButton29;
         butonlar[3][5] = jButton30;
         butonlar[3][6] = jButton31;
-        butonlar[3][7] = jButton32;        
+        butonlar[3][7] = jButton32;
     }
+
     /**
      * @param args the command line arguments
      */
@@ -1080,9 +1149,9 @@ public class AnaSayfa extends javax.swing.JFrame {
     private javax.swing.JButton jButton42;
     private javax.swing.JButton jButton43;
     private javax.swing.JButton jButton44;
-    private javax.swing.JButton jButton45;
-    private javax.swing.JButton jButton46;
+    public static javax.swing.JButton jButton45;
     private javax.swing.JButton jButton47;
+    private javax.swing.JButton jButton48;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -1094,11 +1163,13 @@ public class AnaSayfa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
+    public static javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1108,8 +1179,9 @@ public class AnaSayfa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    public static javax.swing.JTextField jTextField3;
+    public static javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     private javax.swing.JLayeredPane oyunSayfasi;
     // End of variables declaration//GEN-END:variables
 }
