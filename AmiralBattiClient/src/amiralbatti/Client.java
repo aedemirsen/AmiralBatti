@@ -20,100 +20,71 @@ import java.util.logging.Logger;
  * @author aedemirsen
  */
 public class Client {
-
-    final private String baglandiBilgisi = "BAGLANDI";
-    private Kullanici k;
-    private String rakipAdi;
-    private byte[] mesaj;
-    String ip;
-    DatagramSocket clientSocket;
-    InetAddress IPAddress;
-
-    public Client(Kullanici k) {
-        this.k = k;
+    
+    private DatagramSocket socket;
+    private InetAddress serverIP;
+    private InetAddress ip;
+    private int port;
+    private int serverPort;
+    private Thread t;
+    
+    Client(int port){
         try {
-            ip = Inet4Address.getLocalHost().getHostAddress();
+            this.ip = Inet4Address.getLocalHost();
+            this.port = port;
         } catch (UnknownHostException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public Kullanici getKullanici() {
-        return this.k;
-    }
-
-    public void baglan(String serverIP, int serverPort) {
-        try {
-            clientSocket = new DatagramSocket(1299);
-            IPAddress = InetAddress.getByName(serverIP);
-            String ilkMesaj = baglandiBilgisi.concat("#").
-                    concat(this.getKullanici().getKullaniciAdi());
-            mesaj = ilkMesaj.getBytes();
-            byte[] receiveData = new byte[20];
-            DatagramPacket sendPacket
-                    = new DatagramPacket(mesaj, mesaj.length, IPAddress, serverPort);
-            clientSocket.send(sendPacket);     
-//            if (!clientSocket.isConnected()) 
-//                return false;            
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);            
-            rakipAdi = new String(receivePacket.getData());
-            AnaSayfa.jTextField4.setText(rakipAdi.trim());
-           // System.out.println(rakipAdi.trim());
-            //clientSocket.close();
-        } catch (SocketException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//        return true;
     }
     
-    public void mesajGonder(String s,int serverPort) throws IOException{
-        mesaj = s.getBytes();
-        DatagramPacket sendPacket
-                    = new DatagramPacket(mesaj, mesaj.length, IPAddress, serverPort);
-        clientSocket.send(sendPacket);    
+    public void create(int serverPort, String serverIP) throws SocketException, UnknownHostException {
+        socket = new DatagramSocket(this.port);        
+        this.serverIP = InetAddress.getByName(serverIP);
+        this.serverPort = serverPort;
+        t = new Thread() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        byte data[] = new byte[1024];
+                        DatagramPacket dp = new DatagramPacket(data, data.length);
+                        socket.receive(dp);
+                        String gelenMesaj = new String(dp.getData());
+                       // bagliClient = new Client(dp.getAddress(),dp.getPort());
+                    } catch (IOException ex) {
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        };
+        t.start();
     }
-
-    public static void main(String args[]) {
-
-        Client c = new Client(new Kullanici("aed"));
-        c.baglan("localhost", 1453);
-//        
-
-        /*Scanner sc = new Scanner(System.in);
-        System.out.print("IP : ");
-        String ip = sc.nextLine();
-        System.out.print("Port : ");
-        int port = sc.nextInt();
-
+    
+    public void mesajGonder(String s) throws IOException{
+        byte data[] = s.getBytes();
+        DatagramPacket dp = new DatagramPacket(data, data.length,serverIP,serverPort);
+        socket.send(dp);
+    }
+    
+    public InetAddress getIP(){
+        return this.ip;
+    }
+    
+    public int getPort(){
+        return this.port;
+    }
+    
+    public static void main(String[] args) {
+         
         try {
-            byte[] sendData = new byte[1024];
-            byte[] receiveData = new byte[1024];
-
-            DatagramSocket clientSocket = new DatagramSocket();
-            InetAddress IPAddress = InetAddress.getByName(ip);
-            System.out.print("Mesajınız: ");
-            BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-            String line = bf.readLine();
-            sendData = line.getBytes();
-            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, IPAddress, port);
-            clientSocket.send(sendPacket);
-            System.out.println("Mesaj Gönderildi...");
-            DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-            clientSocket.receive(receivePacket);
-            clientSocket.close();
-
-        } catch (SocketException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnknownHostException ex) {
+            Client c = new Client(1299);
+            c.create(1453, "localhost");
+            c.mesajGonder("aed");
+        } catch (UnknownHostException | SocketException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
+        }
+        
     }
-
 }

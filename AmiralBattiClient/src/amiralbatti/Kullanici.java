@@ -12,7 +12,7 @@ package amiralbatti;
 public class Kullanici {
     
     private String kullaniciAdi;
-    private Gemi gemiler[];
+    private final Gemi gemiler[];
     
     public Kullanici(String s){
         this.kullaniciAdi = s;

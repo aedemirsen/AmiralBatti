@@ -9,6 +9,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -19,30 +20,34 @@ public class SavasAlani {
 
     int x;
     int y;
-    private static Birim birimler[][];
+    Birim birimler[][];
+    JButton [][] butonlar;
 
-    public SavasAlani(int x, int y) {
+    public SavasAlani(int x, int y,JButton[][] butonlar) {
         this.x = x;
         this.y = y;
+        this.butonlar = butonlar;
         birimler = new Birim[x][y];
-        for (Birim[] birimler1 : birimler) {
-            for (int j = 0; j < birimler1.length; j++) {
-                birimler1[j] = new Birim();
+        for (int i = 0; i < birimler.length; i++) {
+            for (int j = 0; j < birimler[i].length; j++) {
+                birimler[i][j] = new Birim(butonlar[i][j]);
             }
         }
     }
     
     public void birimDoldur(JButton b, String gemiTuru,int [] koordinat){
         birimler[koordinat[0]][koordinat[1]].setB(b);
-        birimler[koordinat[0]][koordinat[1]].setGemiTuru(gemiTuru);  
-        
+        birimler[koordinat[0]][koordinat[1]].setGemiTuru(gemiTuru);          
     }
 
     public boolean birimVur(Birim b) {
         if (b.birimDoluMu()) {
             MethodInvoker.invokeVoidMethod(b.getGemiTuru(), "hasar");
+            b.getB().setIcon(new ImageIcon("icons/13.png"));
+            b.getB().setEnabled(false);
             return true;
         }
+        //b.getB().setIcon(new ImageIcon("icons/13.png"));
         b.getB().setEnabled(false);
         return false;
     }

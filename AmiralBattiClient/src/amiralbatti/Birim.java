@@ -15,11 +15,16 @@ public class Birim {
     
     private String gemiTuru;
     private JButton button;
-    private int [] koordinat; 
+    private final int [] koordinat; 
     
     public Birim(String tur,JButton button){
         this.button = button;
         this.gemiTuru = tur;
+        koordinat = new int[2];
+    }
+    
+    public Birim(JButton button){
+        this.button = button;
         koordinat = new int[2];
     }
     
