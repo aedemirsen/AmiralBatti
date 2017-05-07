@@ -14,6 +14,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,6 +27,7 @@ public class Client {
     private InetAddress ip;
     private int port;
     private int serverPort;
+    String gelenMesaj;
     private Thread t;
     
     Client(int port){
@@ -33,7 +35,7 @@ public class Client {
             this.ip = Inet4Address.getLocalHost();
             this.port = port;
         } catch (UnknownHostException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Client2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -49,10 +51,11 @@ public class Client {
                         byte data[] = new byte[1024];
                         DatagramPacket dp = new DatagramPacket(data, data.length);
                         socket.receive(dp);
-                        String gelenMesaj = new String(dp.getData());
-                       // bagliClient = new Client(dp.getAddress(),dp.getPort());
+                        gelenMesaj = new String(dp.getData()).trim();
+                        
+                        System.out.println(gelenMesaj);
                     } catch (IOException ex) {
-                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Server2.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -70,21 +73,25 @@ public class Client {
         return this.ip;
     }
     
+    public String getGelenMesaj(){
+        return this.gelenMesaj;
+    }
+    
     public int getPort(){
         return this.port;
     }
     
     public static void main(String[] args) {
          
-        try {
-            Client c = new Client(1299);
-            c.create(1453, "localhost");
-            c.mesajGonder("aed");
-        } catch (UnknownHostException | SocketException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            Client2 c = new Client2(1299);
+//            c.create(1453, "localhost");
+//            c.mesajGonder("aed");
+//        } catch (UnknownHostException | SocketException ex) {
+//            Logger.getLogger(Client2.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (IOException ex) {
+//            Logger.getLogger(Client2.class.getName()).log(Level.SEVERE, null, ex);
+//        }
         
     }
 }

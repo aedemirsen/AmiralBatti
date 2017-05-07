@@ -8,9 +8,12 @@ package amiralbatti;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.SocketException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -21,7 +24,10 @@ public class Server {
     private Thread t;
     private DatagramSocket socket;
     private final int port;
-    private Client bagliClient;
+    private Client2 bagliClient;
+    InetAddress IPAddress; //client
+    String gelenMesaj;
+    boolean b = true;
 
     public Server(int port) {
         this.port = port;
@@ -32,46 +38,50 @@ public class Server {
         t = new Thread() {
             @Override
             public void run() {
-                System.out.println("server çalışıyor");
+                System.out.println("server is running...");
                 while (true) {
                     try {
                         byte data[] = new byte[1024];
                         DatagramPacket dp = new DatagramPacket(data, data.length);
                         socket.receive(dp);
-                        String gelenMesaj = new String(dp.getData());
+                        IPAddress = dp.getAddress();
+                        gelenMesaj = new String(dp.getData()).trim();
+                       
                         System.out.println(gelenMesaj);
-                        bagliClient = new Client(dp.getPort());
+                      //  bagliClient = new Client2(dp.getPort());
                     } catch (IOException ex) {
-                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Server2.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
         };
-    }
-    
-    public void start(){
         t.start();
     }
-    
-    public void stop(){
+
+    public String getGelenMesaj() {
+        return this.gelenMesaj;
+    }
+
+    public void stop() {
         t.interrupt();
         socket.close();
     }
-    
-    public void mesajGonder(String s){
+
+    public void mesajGonder(String s) throws IOException {
         byte data[] = s.getBytes();
-        DatagramPacket dp = new DatagramPacket(data, data.length,bagliClient.getIP(),bagliClient.getPort());
+        DatagramPacket dp = new DatagramPacket(data, data.length, IPAddress, 1299);
+        socket.send(dp);
     }
-    
+
     public static void main(String[] args) {
-        Server s = new Server(1453);
-        try {
-            s.create();
-            s.start();
-           // s.mesajGonder("ead");
-        } catch (SocketException ex) {
-            Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        Server2 s = new Server2(1453);
+//        try {
+//            s.create();
+//            s.start();
+//            // s.mesajGonder("ead");
+//        } catch (SocketException ex) {
+//            Logger.getLogger(Server2.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
 }
