@@ -11,10 +11,11 @@ import javax.swing.JButton;
  *
  * @author aedemirsen
  */
+
 public class Battlefield {
     
     private final int height,width;
-    private final Unit units[][];
+    final Unit units[][];
     
     public Battlefield(int height,int width){
         this.height = height;
@@ -27,9 +28,19 @@ public class Battlefield {
         }
     }
     
-    public void fillUnit(int i, int j, JButton b,Ship s){
+    public void fillUnit(int i, int j,int n,JButton b,Ship s){
         units[i][j].setButton(b);
         units[i][j].setShip(s);
+        units[i][j].setN(n);
+    }
+    
+    public boolean areShipsSunk(){
+        boolean b = true;
+        for (int i = 0; i < Carrier.player.ships.length; i++) {
+            if (!Carrier.player.ships[i].isSunk) 
+                return false;
+        }
+        return b;
     }
     
     

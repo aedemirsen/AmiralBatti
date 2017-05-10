@@ -17,8 +17,11 @@ public class Carrier {
     static Ship ship;
     static Battlefield battlefield;
     static Server server;
+    static Client client;
     static MainFrame mainFrame;
     static JBattlefield jBattlefield;
+    static final int SERVER_PORT = 1453;
+    static final int CLIENT_PORT = 1299;
     
     public static Carrier carrier = new Carrier();
     

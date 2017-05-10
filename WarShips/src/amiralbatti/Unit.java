@@ -15,13 +15,27 @@ public class Unit {
     
     private Ship ship;
     private JButton b; 
+    private int n;
      
     public boolean isOccupied(){
         return (b != null && ship != null);
     }
     
+    public void setN(int n){
+        this.n = n;
+    }
+    
+    public int getN(){
+        return n;
+    }
+    
+    
     public void setShip(Ship s){
         this.ship = s;
+    }
+    
+    public Ship getShip(){
+        return ship;
     }
     
     public void setButton(JButton b){

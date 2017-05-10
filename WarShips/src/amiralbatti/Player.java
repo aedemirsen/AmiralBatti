@@ -17,6 +17,7 @@ public class Player {
     InetAddress IPAddress;
     Ship ships[];
     boolean isServer;
+    boolean isTurn;
     
     public Player(String name,int shipQuantity){
         this.name = name;

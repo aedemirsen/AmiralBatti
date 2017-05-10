@@ -12,11 +12,13 @@ package amiralbatti;
 public class Ship {
     
     public boolean isSunk;
-    private final Location l;
+    private final Location l;    
     
     public Ship(int x,int y){
         l = new Location(x,y);
     }
+    
+    
     
 }
 

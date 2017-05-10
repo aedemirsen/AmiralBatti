@@ -5,6 +5,7 @@
  */
 package amiralbatti;
 
+import static amiralbatti.JBattlefield.jLabel15;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -24,9 +25,9 @@ public class Server {
     private Thread t;
     private DatagramSocket socket;
     private final int port;
-    private Client2 bagliClient;
+    //private Client2 bagliClient;
     InetAddress IPAddress; //client
-    String gelenMesaj;
+    String receivedMessage;
     boolean b = true;
 
     public Server(int port) {
@@ -45,12 +46,11 @@ public class Server {
                         DatagramPacket dp = new DatagramPacket(data, data.length);
                         socket.receive(dp);
                         IPAddress = dp.getAddress();
-                        gelenMesaj = new String(dp.getData()).trim();
-                       
-                        System.out.println(gelenMesaj);
-                      //  bagliClient = new Client2(dp.getPort());
+                        receivedMessage = new String(dp.getData()).trim();
+                        process();
+                        System.out.println(receivedMessage);
                     } catch (IOException ex) {
-                        Logger.getLogger(Server2.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
             }
@@ -58,8 +58,8 @@ public class Server {
         t.start();
     }
 
-    public String getGelenMesaj() {
-        return this.gelenMesaj;
+    public String getReceivedMessage() {
+        return this.receivedMessage;
     }
 
     public void stop() {
@@ -67,21 +67,64 @@ public class Server {
         socket.close();
     }
 
-    public void mesajGonder(String s) throws IOException {
+    public void process() throws IOException {
+        if (receivedMessage.startsWith("#")) {
+            String s = receivedMessage.substring(receivedMessage.indexOf("#") + 1);
+            JBattlefield.jTextField2.setText(s);
+            sendMessage("#".concat(Carrier.player.name));
+        } else if (receivedMessage.equals("B")) {
+            JBattlefield.jLabel15.setIcon(new ImageIcon(""));
+        } else if (receivedMessage.startsWith("&")) {
+            int x = Integer.parseInt(receivedMessage.
+                    substring(1, receivedMessage.indexOf("-")));
+            int y = Integer.parseInt(receivedMessage.
+                    substring(receivedMessage.indexOf("-") + 1));
+            if (Carrier.battlefield.units[x][y].isOccupied()) {
+                System.out.println("Hit!");
+                JBattlefield.buttonsLeft[x][y].setIcon(new ImageIcon("icons/13.png"));
+                sendMessage("H" + x + "-" + y);
+            } else {
+                sendMessage("M" + x + "-" + y);
+                JBattlefield.setState(x, y, false, "L");
+                System.out.println("Miss!");
+            }
+            JBattlefield.jLabel15.setIcon(new ImageIcon("icons/7.png"));
+            JBattlefield.jLabel16.setIcon(new ImageIcon(""));
+            Carrier.player.isTurn = true;
+        } else if (receivedMessage.startsWith("H")) {
+            int x = Integer.parseInt(receivedMessage.
+                    substring(1, receivedMessage.indexOf("-")));
+            int y = Integer.parseInt(receivedMessage.
+                    substring(receivedMessage.indexOf("-") + 1));
+            JBattlefield.buttonsRight[x][y].setIcon(new ImageIcon("icons/13.png"));
+            int i = Carrier.battlefield.units[x][y].getN();
+            Carrier.player.ships[i].isSunk = true;
+            if (Carrier.battlefield.areShipsSunk()) {
+                JBattlefield.isEnd = true;
+                JBattlefield.jLabel2.setText("YOU WON!");
+                sendMessage("L");
+            }
+        } else if (receivedMessage.startsWith("M")) {
+            int x = Integer.parseInt(receivedMessage.
+                    substring(1, receivedMessage.indexOf("-")));
+            int y = Integer.parseInt(receivedMessage.
+                    substring(receivedMessage.indexOf("-") + 1));
+            JBattlefield.setState(x, y, false, "R");
+        } 
+        else if (receivedMessage.equals("L")) {
+            JBattlefield.jLabel2.setText("YOU LOSE!");
+            JBattlefield.isEnd = true;
+        }
+    }
+
+    public void sendMessage(String s) throws IOException {
         byte data[] = s.getBytes();
         DatagramPacket dp = new DatagramPacket(data, data.length, IPAddress, 1299);
         socket.send(dp);
     }
 
     public static void main(String[] args) {
-//        Server2 s = new Server2(1453);
-//        try {
-//            s.create();
-//            s.start();
-//            // s.mesajGonder("ead");
-//        } catch (SocketException ex) {
-//            Logger.getLogger(Server2.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        
     }
 
 }

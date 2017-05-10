@@ -6,7 +6,9 @@
 package amiralbatti;
 
 import java.awt.Color;
+import java.io.IOException;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BorderFactory;
@@ -21,7 +23,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private final int shipQuantity = 5;
     private final int height = 5,width = 8;
-    private final int SERVER_PORT = 1453;
+    
     /**
      * Creates new form MainFrame
      */
@@ -177,6 +179,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel12.setText("Port :");
 
         jTextField2.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField2.setText("1453");
 
         jLabel19.setText("Kullanıcı Adı:");
 
@@ -189,6 +192,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel20.setText("IP:");
 
         jTextField5.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField5.setText("localhost");
 
         base3.setLayer(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
         base3.setLayer(jButton47, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -312,13 +316,7 @@ public class MainFrame extends javax.swing.JFrame {
     private void jButton42ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton42ActionPerformed
         // TODO add your handling code here:
         Carrier.player.isServer = true;
-        Carrier.battlefield = new Battlefield(height, width);
-        Carrier.server = new Server(SERVER_PORT);
-        try {
-            Carrier.server.create();
-        } catch (SocketException ex) {
-            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Carrier.battlefield = new Battlefield(height, width);        
         Carrier.mainFrame = this;
         JBattlefield jBattlefield = new JBattlefield();
         jBattlefield.setVisible(true);
@@ -327,8 +325,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton42ActionPerformed
 
     private void jButton43ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton43ActionPerformed
-        // TODO add your handling code here:
-        Carrier.player.isServer = false;
+        // TODO add your handling code here:        
         base2.setVisible(false);
         base3.setVisible(true);
     }//GEN-LAST:event_jButton43ActionPerformed
@@ -347,7 +344,21 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton48ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton48ActionPerformed
         // TODO add your handling code here:
-        //        try {
+        Carrier.player.isServer = false;
+        Carrier.battlefield = new Battlefield(height, width);        
+        Carrier.mainFrame = this;
+        Carrier.client = new Client(Carrier.CLIENT_PORT);
+        try {
+            Carrier.client.create(Integer.parseInt(jTextField2.getText()), jTextField5.getText());
+            Carrier.client.sendMessage("#".concat(Carrier.player.name));
+        } catch (SocketException | UnknownHostException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        JBattlefield jBattlefield = new JBattlefield();
+        jBattlefield.setVisible(true);
+        this.dispose();
         
     }//GEN-LAST:event_jButton48ActionPerformed
 
