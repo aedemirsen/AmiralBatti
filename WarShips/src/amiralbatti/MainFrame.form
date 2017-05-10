@@ -59,7 +59,7 @@
           <Font name="Tahoma" size="36" style="1"/>
         </Property>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="AM&#x130;RAL BATTI"/>
+        <Property name="text" type="java.lang.String" value="WARSHIPS"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel8">
@@ -106,7 +106,7 @@
                               <Component id="jTextField1" min="-2" pref="183" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="113" max="32767" attributes="0"/>
+                      <EmptySpace pref="116" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -128,7 +128,7 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kullan&#x131;c&#x131; Ad&#x131;:"/>
+                <Property name="text" type="java.lang.String" value="User Name:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JTextField" name="jTextField1">
@@ -138,7 +138,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton41">
               <Properties>
-                <Property name="text" type="java.lang.String" value="DEVAM"/>
+                <Property name="text" type="java.lang.String" value="GO"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton41ActionPerformed"/>
@@ -189,7 +189,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton42">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Yeni Oyun"/>
+                <Property name="text" type="java.lang.String" value="New Game"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton42ActionPerformed"/>
@@ -197,7 +197,7 @@
             </Component>
             <Component class="javax.swing.JButton" name="jButton43">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Oyuna Kat&#x131;l"/>
+                <Property name="text" type="java.lang.String" value="Join"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton43ActionPerformed"/>
@@ -230,7 +230,7 @@
                           <Component id="jLabel11" alignment="1" max="32767" attributes="0"/>
                           <Component id="jTextField2" alignment="1" pref="177" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="70" max="32767" attributes="0"/>
+                      <EmptySpace pref="73" max="32767" attributes="0"/>
                       <Component id="jButton48" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -289,7 +289,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel19">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Kullan&#x131;c&#x131; Ad&#x131;:"/>
+                <Property name="text" type="java.lang.String" value="User Name:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton48">
